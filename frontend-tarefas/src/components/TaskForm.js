@@ -1,15 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const TaskForm = ({ onSubmit, initialTask, onCancel }) => {
-  const [description, setDescription] = useState(initialTask?.description || "");
-  const [end_date, setEndDate] = useState(initialTask?.end_date || "");
+  const [description, setDescription] = useState("");
+  const [end_date, setEndDate] = useState("");
+  const [id, setId] = useState("");
+
+  const formatDate = (date) => {
+    if (!date) return ""; 
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0"); 
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ description, end_date });
+    if(initialTask){
+      onSubmit({_id: id,description, end_date});
+    }
+    else
+      onSubmit({ description, end_date });
     setDescription("");
     setEndDate("");
   };
+
+  useEffect(() => {
+    if(initialTask) {
+      setId(initialTask._id);
+      setDescription(initialTask.description);
+      setEndDate(formatDate(initialTask.end_date))
+    }
+    else{
+      setDescription("");
+      setEndDate("");
+    }
+  }, [initialTask]);
 
   return (
     <form onSubmit={handleSubmit}>

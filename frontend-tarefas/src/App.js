@@ -1,9 +1,10 @@
 import React from "react";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
+import TaskSearchBar from "./components/TaskSearchBar";
 import { useTasks } from "./hooks/useTasks";
 import "./App.css";
-import "./services/api"
+import "./services/api";
 
 function App() {
   const {
@@ -15,6 +16,7 @@ function App() {
     handleDeleteTask,
     handleCompleteTask,
     handleArchiveTask,
+    handleSearch, 
   } = useTasks();
 
   return (
@@ -27,6 +29,9 @@ function App() {
         initialTask={editingTask}
         onCancel={() => setEditingTask(null)}
       />
+
+      {/* Barra de pesquisa */}
+      <TaskSearchBar onSearch={handleSearch} /> {/* Passando a função handleSearch */}
 
       {/* Lista de tarefas */}
       <TaskList

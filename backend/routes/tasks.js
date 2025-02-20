@@ -7,9 +7,9 @@ const fs = require('fs');
 // Criar uma nova tarefa
 router.post('/', async (req, res) => {
   try {
-    const { description, end_date } = req.body; // Recebe description e end_date
+    const { description, end_date } = req.body;
     const endDate = new Date(end_date);
-    const task = new Task(description, endDate); // Cria a tarefa com os novos campos
+    const task = new Task(description, endDate);
     await task.save();
     res.status(201).json(task);
   } catch (err) {
@@ -94,24 +94,6 @@ router.put('/:id/complete', async (req, res) => {
   }
 });
 
-// Arquivar uma tarefa
-/*router.put('/:id/archive', async (req, res) => {
-  try {
-    const task = await Task.findById(req.params.id);
-    if (!task) {
-      return res.status(404).json({ error: 'Tarefa não encontrada.' });
-    }
-    if (!task.completed) {
-      return res.status(400).json({ error: 'A tarefa precisa estar concluída antes de ser arquivada.' });
-    }
-    task.archived = true;
-    await task.save();
-    res.json(task);
-  } catch (err) {
-    console.error(`Erro ao arquivar tarefa ${req.params.id}:`, err);
-    res.status(400).json({ error: 'Erro ao arquivar tarefa. Tente novamente mais tarde.' });
-  }
-});*/
 
 router.put('/:id/archive', async (req, res) => {
   try {
